@@ -105,6 +105,7 @@ class ShortRepository
 
         $model->delete();
 
+        Cache::forget('shorts'.$indetify);
         Cache::forget('shorts');
     }
 }

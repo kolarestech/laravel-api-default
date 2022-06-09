@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'service_creators' => [
+        'url' => env('SERVICE_CREATORS_URL', 'localhost:8001'),
+        'secret' => env('SERVICE_CREATORS_SECRET_TOKEN', '')
+    ],
+
 ];

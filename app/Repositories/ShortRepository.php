@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Short;
+use App\Services\Creators\CreatorShowService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -10,43 +11,68 @@ class ShortRepository
 {
     /**
      * model instance
-     * 
+     *
      * @var $model
      */
     protected $model;
 
     /**
+     * model instance
+     *
+     * @var $model
+     */
+    protected $creatorIndexService;
+
+    /**
      * cache module
-     * 
+     *
      * @var const CACHE_MODULE
      */
     const CACHE_MODULE = 'shorts';
 
-    function __construct(Short $model)
+    /**
+     * Construct
+     *
+     * @param Short $model
+     * @param CreatorService $creatorService
+     *
+     * @return void
+     */
+    function __construct(
+        Short $model,
+        CreatorShowService $creatorShowService
+        )
     {
         $this->model = $model;
+        $this->creatorShowService = $creatorShowService;
     }
 
     /**
      * filter registers os this object model
-     * 
+     *
      * @param array $filters
      * @param int $page
-     * 
+     *
      * @return Collection $data
      */
     public function getAll(array $filters, int $page)
     {
         return Cache::rememberForever('shorts', function () use ($page, $filters) {
-            return $this->model->paginate($page);
+            $query = $this->model->paginate($page);
+
+            $query->each(function($data) {
+                return $data->likers = $this->creatorShowService->exec();
+            });
+
+            return $query;
         });
     }
 
     /**
      * insert new instance os this object on database
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return object $model
      */
     public function store(array $data)
@@ -60,9 +86,9 @@ class ShortRepository
 
     /**
      * get one instance of this object and its relationships
-     * 
+     *
      * @param string $identify
-     * 
+     *
      * @return object $model
      */
     public function getByIdentify(string $identify)
@@ -74,15 +100,15 @@ class ShortRepository
 
     /**
      * Update a instance of this object
-     * 
+     *
      * @param array $data
      * @param string identify
-     * 
+     *
      * @return object $model
      */
     public function update(array $data, string $identify)
     {
-        $model = $this->getByIdentify($identify); 
+        $model = $this->getByIdentify($identify);
 
         $model->update($data);
 
@@ -94,14 +120,14 @@ class ShortRepository
 
     /**
      * Delete a instance of this object
-     * 
+     *
      * @param string identify
-     * 
+     *
      * @return object $model
      */
     public function delete(string $indetify)
     {
-        $model = $this->getByIdentify($indetify); 
+        $model = $this->getByIdentify($indetify);
 
         $model->delete();
 

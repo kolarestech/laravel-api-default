@@ -21,7 +21,7 @@ class ShortIndexResource extends JsonResource
             'identify' => $this->uuid,
             'creator_identify' => $this->creator_identify,
             'date_created' => $this->created_at,
-            'likers' => $this->likers
+            'creator' => $this->creator
         ];
     }
 }

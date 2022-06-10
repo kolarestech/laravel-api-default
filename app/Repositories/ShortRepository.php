@@ -57,15 +57,15 @@ class ShortRepository
      */
     public function getAll(array $filters, int $page)
     {
-        return Cache::rememberForever('shorts', function () use ($page, $filters) {
+        //return Cache::rememberForever('shorts', function () use ($page, $filters) {
             $query = $this->model->paginate($page);
 
             $query->each(function($data) {
-                return $data->likers = $this->creatorShowService->exec();
+                $data->creator = $this->creatorShowService->exec($data->creator_identify);
             });
 
             return $query;
-        });
+       // });
     }
 
     /**

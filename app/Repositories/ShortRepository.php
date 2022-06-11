@@ -57,7 +57,7 @@ class ShortRepository
      */
     public function getAll(array $filters, int $page)
     {
-        //return Cache::rememberForever('shorts', function () use ($page, $filters) {
+        return Cache::rememberForever('shorts', function () use ($page, $filters) {
             $query = $this->model->paginate($page);
 
             $query->each(function($data) {
@@ -65,7 +65,7 @@ class ShortRepository
             });
 
             return $query;
-       // });
+       });
     }
 
     /**

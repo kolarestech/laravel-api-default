@@ -1,16 +1,14 @@
 <?php
 namespace App\Services\Creators;
 
+use App\Services\Creators\CreatorBaseService;
 use App\Services\Traits\ConsumeExternalService;
 use Exception;
 use Illuminate\Support\Facades\Http;
 
-class CreatorShowService
+class CreatorShowService extends CreatorBaseService
 {
     use ConsumeExternalService;
-
-    protected $url;
-    protected $token;
 
     function __construct()
     {
@@ -20,17 +18,12 @@ class CreatorShowService
 
     function exec(string $creatorIdentify)
     {
-        //dd(config('services.service_creators.url')."/creators/");
         try {
-
             $response = $this->request('get', "/creators/{$creatorIdentify}");
-
-            return [
-                'name' => "text"
-            ];
+            //dd($response);
+            return $response->json()['data'];
         } catch(Exception $e) {
             dd($e->getMessage());
         }
-
     }
 }

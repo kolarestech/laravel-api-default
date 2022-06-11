@@ -5,7 +5,7 @@ namespace App\Services\Traits;
 use Illuminate\Support\Facades\Http;
 
 trait ConsumeExternalService
-{
+{   
     public function headers(array $headers = [])
     {
         array_push($headers, [

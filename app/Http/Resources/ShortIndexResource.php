@@ -18,7 +18,7 @@ class ShortIndexResource extends JsonResource
         return [
             'description' => $this->description,
             'url' => $this->url,
-            'identify' => $this->uuid,
+            //'identify' => $this->uuid,
             'creator_identify' => $this->creator_identify,
             'date_created' => $this->created_at,
             'creator' => $this->creator

@@ -2,12 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Models\Short;
-use App\Services\Creators\CreatorShowService;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Like;
 use Illuminate\Support\Facades\Cache;
 
-class ShortRepository
+class LikeRepository
 {
     /**
      * model instance
@@ -28,44 +26,23 @@ class ShortRepository
      *
      * @var const CACHE_MODULE
      */
-    const CACHE_MODULE = 'shorts';
+    const CACHE_MODULE = 'likes';
 
     /**
      * Construct
      *
-     * @param Short $model
+     * @param Like $model
      * @param CreatorService $creatorService
      *
      * @return void
      */
     function __construct(
-        Short $model,
-        CreatorShowService $creatorShowService
+        Like $model,
+        // CreatorShowService $creatorShowService
         )
     {
         $this->model = $model;
-        $this->creatorShowService = $creatorShowService;
-    }
-
-    /**
-     * filter registers os this object model
-     *
-     * @param array $filters
-     * @param int $page
-     *
-     * @return Collection $data
-     */
-    public function getAll(array $filters, int $page)
-    {
-        //return Cache::rememberForever(self::CACHE_MODULE, function () use ($page, $filters) {
-            $query = $this->model->with('likes')->paginate($page);
-
-            $query->each(function($data) {
-                $data->creator = $this->creatorShowService->exec($data->creator_identify);
-            });
-
-            return $query;
-        //});
+        // $this->creatorShowService = $creatorShowService;
     }
 
     /**
@@ -93,29 +70,9 @@ class ShortRepository
      */
     public function getByIdentify(string $identify)
     {
-        //return Cache::rememberForever(self::CACHE_MODULE.$identify, function () use ($identify) {
+        return Cache::rememberForever(self::CACHE_MODULE.$identify, function () use ($identify) {
             return $this->model->where('uuid', $identify)->firstOrFail();
-        //});
-    }
-
-    /**
-     * Update a instance of this object
-     *
-     * @param array $data
-     * @param string identify
-     *
-     * @return object $model
-     */
-    public function update(array $data, string $identify)
-    {
-        $model = $this->getByIdentify($identify);
-
-        $model->update($data);
-
-        Cache::forget(self::CACHE_MODULE);
-        Cache::forget(self::CACHE_MODULE.$identify);
-
-        return $model;
+        });
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ShortController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,5 @@ Route::get('shorts/{identify}', [ShortController::class, 'show']);
 Route::put('shorts/{identify}', [ShortController::class, 'update']);
 Route::delete('shorts/{identify}', [ShortController::class, 'destroy']);
 
+Route::post('likes', [LikeController::class, 'store']);
+Route::delete('likes/{identify}', [LikeController::class, 'destroy']);

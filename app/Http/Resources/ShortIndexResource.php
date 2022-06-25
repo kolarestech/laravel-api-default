@@ -16,12 +16,12 @@ class ShortIndexResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'identify' => $this->uuid,
             'description' => $this->description,
             'url' => $this->url,
-            //'identify' => $this->uuid,
-            'creator_identify' => $this->creator_identify,
             'date_created' => $this->created_at,
-            'creator' => $this->creator
+            'creator' => $this->creator,
+            'likes' => $this->likes
         ];
     }
 }

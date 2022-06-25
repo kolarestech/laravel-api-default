@@ -20,7 +20,8 @@ class ShortShowResource extends JsonResource
             'url' => $this->url,
             'identify' => $this->uuid,
             'creator_identify' => $this->creator_identify,
-            'date_created' => $this->created_at
+            'date_created' => $this->created_at,
+            'likes' => $this->likes
         ];
     }
 }

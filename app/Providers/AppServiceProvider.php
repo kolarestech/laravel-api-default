@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Like;
 use App\Models\Short;
+use App\Observers\LikeObserver;
 use App\Observers\ShortObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Short::observe(ShortObserver::class);
+        Like::observe(LikeObserver::class);
     }
 }

@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shorts', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->uuid();
-            $table->uuid('creator_identify');
-            $table->string('url');
-            $table->text('description', 200)->nullable();
+            $table->uuid('short_identify');
+            $table->uuid('customer_identify');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shorts');
+        Schema::dropIfExists('likes');
     }
 };
